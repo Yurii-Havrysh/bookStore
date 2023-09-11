@@ -51,7 +51,21 @@ class Cart {
         return this.items;
     }
 } //class of users carts, where all orders locate
+//////-> creating here 2 extending classes to define fiction and non-fiction books
+class FictionBook extends Book {
+    constructor(title, author, ISBN, price, availability, genre) {
+        super(title, author, ISBN, price, availability);
+        this.genre = genre;
+    }
+}
 
+class NonFictionBook extends Book {
+    constructor(title, author, ISBN, price, availability, category) {
+      super(title, author, ISBN, price, availability);
+      this.category = category;
+    }
+}
+//////<-
 class Order {
     constructor(userInfo, orderedBooks, userCart) {
         this.userInfo = userInfo.email; //here we can get info about user, whether it is name, id or email
@@ -69,16 +83,24 @@ class Order {
         console.log('Ordered books:');
         this.orderedBooks.forEach((book, index) => {
             console.log(`${index + 1}. ${book.title} by ${book.author} - $${book.price.toFixed(2)}`);
+            //checking whether book fiction or no
+            if (book instanceof FictionBook) {
+                console.log('  Type: Fiction');
+            } else if (book instanceof NonFictionBook) {
+                console.log('  Type: Non-fiction');
+            }
         }); //and here we use cycle forEach to display info about every ordered book 
         console.log(`Total Price: $${this.calculatePrice().toFixed(2)}`); //getting totalPrice of books from user
     }
-} //
+} 
+
+
 
 //Instantiating Book and User objects
-const book1 = new Book('The Murder of Roger Ackroyd', 'Agatha Christie', 1, 11, true, 'mystery');
-const book2 = new Book('The Adventures of Huckleberry Finn', 'Mark Twain', 2, 25, true, 'fiction');
-const book3 = new Book('Animal Farm', 'George Orwell', 3, 9, true, 'political');
-const book4 = new Book('Holly', 'Stephen King', 4, 8, true, 'fiction');
+const book1 = new NonFictionBook('The Murder of Roger Ackroyd', 'Agatha Christie', 1, 11, true, 'mystery');
+const book2 = new FictionBook('The Adventures of Huckleberry Finn', 'Mark Twain', 2, 25, true, 'fiction');
+const book3 = new NonFictionBook('Animal Farm', 'George Orwell', 3, 9, true, 'political');
+const book4 = new FictionBook('Holly', 'Stephen King', 4, 8, true, 'fiction');
 
 const user1 = new User('Anna', 'anna.fuhrmann@example.com', 11);
 const user2 = new User('Tony', 'tony.williams@example.com', 22);
